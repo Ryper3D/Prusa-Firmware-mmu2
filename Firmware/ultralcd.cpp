@@ -4626,7 +4626,7 @@ void lcd_v2_calibration()
 	    const uint8_t filament = choose_menu_P(
             _i("Select filament:"), ////MSG_SELECT_FILAMENT c=20
             _T(MSG_FILAMENT),(_T(MSG_CANCEL)+1)); //Hack to reuse MSG but strip 1st char off
-	    if (filament < 7)
+	    if (filament < 10)
 	    {
 	        lay1cal_filament = filament;
 	    }
@@ -6090,10 +6090,17 @@ static void fil_load_menu()
     MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '2', extr_adj, 1); ////MSG_LOAD_FILAMENT_2 c=17
     MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '3', extr_adj, 2); ////MSG_LOAD_FILAMENT_3 c=17
     MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '4', extr_adj, 3); ////MSG_LOAD_FILAMENT_4 c=17
-	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '5', extr_adj, 4); ////MSG_LOAD_FILAMENT_5 c=17
-    MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '6', extr_adj, 5); ////MSG_LOAD_FILAMENT_6 c=17
-    MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '7', extr_adj, 6); ////MSG_LOAD_FILAMENT_7 c=17
+	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '5', extr_adj, 4);
+	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '6', extr_adj, 5);
+	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '7', extr_adj, 6);
+	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '8', extr_adj, 7);
+	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '9', extr_adj, 8);
+	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), 'x', extr_adj, 9);															  
 
+    if (mmu_enabled)
+    {
+        MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '5', extr_adj, 4);
+    }
     MENU_END();
 }
 
@@ -6108,8 +6115,11 @@ static void mmu_load_to_nozzle_menu()
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '3', lcd_mmu_load_to_nozzle, 2);
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '4', lcd_mmu_load_to_nozzle, 3);
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '5', lcd_mmu_load_to_nozzle, 4);
-		MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '6', lcd_mmu_load_to_nozzle, 5);
+        MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '6', lcd_mmu_load_to_nozzle, 5);
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '7', lcd_mmu_load_to_nozzle, 6);
+		MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '8', lcd_mmu_load_to_nozzle, 7);
+        MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '9', lcd_mmu_load_to_nozzle, 8);
+        MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), 'x', lcd_mmu_load_to_nozzle, 9);																				   
         MENU_END();
     }
     else
@@ -6137,7 +6147,10 @@ static void mmu_fil_eject_menu()
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_EJECT_FILAMENT), '4', mmu_eject_filament, 3);
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_EJECT_FILAMENT), '5', mmu_eject_filament, 4);
 		MENU_ITEM_FUNCTION_NR_P(_T(MSG_EJECT_FILAMENT), '6', mmu_eject_filament, 5);
-        MENU_ITEM_FUNCTION_NR_P(_T(MSG_EJECT_FILAMENT), '7', mmu_eject_filament, 6);
+		MENU_ITEM_FUNCTION_NR_P(_T(MSG_EJECT_FILAMENT), '7', mmu_eject_filament, 6);
+		MENU_ITEM_FUNCTION_NR_P(_T(MSG_EJECT_FILAMENT), '8', mmu_eject_filament, 7);
+		MENU_ITEM_FUNCTION_NR_P(_T(MSG_EJECT_FILAMENT), '9', mmu_eject_filament, 8);
+		MENU_ITEM_FUNCTION_NR_P(_T(MSG_EJECT_FILAMENT), 'x', mmu_eject_filament, 9);																		  
         MENU_END();
     }
     else
@@ -6160,6 +6173,11 @@ static void mmu_cut_filament_menu()
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_CUT_FILAMENT), '3', mmu_cut_filament, 2);
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_CUT_FILAMENT), '4', mmu_cut_filament, 3);
         MENU_ITEM_FUNCTION_NR_P(_T(MSG_CUT_FILAMENT), '5', mmu_cut_filament, 4);
+		MENU_ITEM_FUNCTION_NR_P(_T(MSG_CUT_FILAMENT), '6', mmu_cut_filament, 5);
+        MENU_ITEM_FUNCTION_NR_P(_T(MSG_CUT_FILAMENT), '7', mmu_cut_filament, 6);
+		MENU_ITEM_FUNCTION_NR_P(_T(MSG_CUT_FILAMENT), '8', mmu_cut_filament, 7);
+		MENU_ITEM_FUNCTION_NR_P(_T(MSG_CUT_FILAMENT), '9', mmu_cut_filament, 8);
+        MENU_ITEM_FUNCTION_NR_P(_T(MSG_CUT_FILAMENT), 'x', mmu_cut_filament, 9);																			
         MENU_END();
     }
     else
@@ -6189,7 +6207,9 @@ static void fil_unload_menu()
 	MENU_ITEM_FUNCTION_P(_i("Unload filament 5"), extr_unload_4);////MSG_UNLOAD_FILAMENT_5 c=17
 	MENU_ITEM_FUNCTION_P(_i("Unload filament 6"), extr_unload_5);////MSG_UNLOAD_FILAMENT_6 c=17
 	MENU_ITEM_FUNCTION_P(_i("Unload filament 7"), extr_unload_6);////MSG_UNLOAD_FILAMENT_7 c=17
-
+	MENU_ITEM_FUNCTION_P(_i("Unload filament 8"), extr_unload_7);////MSG_UNLOAD_FILAMENT_7 c=17
+	MENU_ITEM_FUNCTION_P(_i("Unload filament 9"), extr_unload_8);////MSG_UNLOAD_FILAMENT_7 c=17
+	MENU_ITEM_FUNCTION_P(_i("Unload filament x"), extr_unload_9);////MSG_UNLOAD_FILAMENT_7 c=17																						
 
 	MENU_END();
 }
@@ -6202,9 +6222,12 @@ static void change_extr_menu(){
 	MENU_ITEM_FUNCTION_P(_i("Extruder 2"), extr_change_1);////MSG_EXTRUDER_2 c=17
 	MENU_ITEM_FUNCTION_P(_i("Extruder 3"), extr_change_2);////MSG_EXTRUDER_3 c=17
 	MENU_ITEM_FUNCTION_P(_i("Extruder 4"), extr_change_3);////MSG_EXTRUDER_4 c=17
-	MENU_ITEM_FUNCTION_P(_i("Extruder 5"), extr_change_4);////MSG_EXTRUDER_5 c=17
-	MENU_ITEM_FUNCTION_P(_i("Extruder 6"), extr_change_5);////MSG_EXTRUDER_6 c=17
-	MENU_ITEM_FUNCTION_P(_i("Extruder 7"), extr_change_6);////MSG_EXTRUDER_7 c=17
+	MENU_ITEM_FUNCTION_P(_i("Extruder 5"), extr_change_4);////MSG_EXTRUDER_4 c=17
+	MENU_ITEM_FUNCTION_P(_i("Extruder 6"), extr_change_5);////MSG_EXTRUDER_4 c=17
+	MENU_ITEM_FUNCTION_P(_i("Extruder 7"), extr_change_6);////MSG_EXTRUDER_4 c=17
+	MENU_ITEM_FUNCTION_P(_i("Extruder 8"), extr_change_7);////MSG_EXTRUDER_4 c=17
+	MENU_ITEM_FUNCTION_P(_i("Extruder 9"), extr_change_8);////MSG_EXTRUDER_4 c=17
+	MENU_ITEM_FUNCTION_P(_i("Extruder x"), extr_change_9);////MSG_EXTRUDER_4 c=17
 
 
 	MENU_END();

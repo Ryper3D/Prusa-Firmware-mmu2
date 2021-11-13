@@ -42,13 +42,19 @@ enum class MmuCmd : uint_least8_t
     T4,
     T5,
     T6,
+    T7,
+    T8,
+    T9,
     L0,
     L1,
     L2,
     L3,
     L4,
-    L5,
-    L6,
+    T5,
+    T6,
+    T7,
+    T8,
+    T9,
     C0,
     U0,
     E0,
@@ -58,6 +64,9 @@ enum class MmuCmd : uint_least8_t
     E4,
     E5,
     E6,
+    E7,
+    E8,
+    E9,
     K0,
     K1,
     K2,
@@ -65,6 +74,9 @@ enum class MmuCmd : uint_least8_t
     K4,
     K5,
     K6,
+    K7,
+    K8,
+    K9,
     R0,
     S3,
     W0, //!< Wait and signal load error
@@ -122,7 +134,9 @@ extern void extr_adj_3();
 extern void extr_adj_4();
 extern void extr_adj_5();
 extern void extr_adj_6();
-
+extern void extr_adj_7();
+extern void extr_adj_8();
+extern void extr_adj_9();						 
 extern void load_all();
 extern void extr_change_0();
 extern void extr_change_1();
@@ -131,7 +145,9 @@ extern void extr_change_3();
 extern void extr_change_4();
 extern void extr_change_5();
 extern void extr_change_6();
-
+extern void extr_change_7();
+extern void extr_change_8();
+extern void extr_change_9();							
 #ifdef SNMM
 extern void extr_unload_all();
 extern void extr_unload_used();
@@ -143,7 +159,9 @@ extern void extr_unload_3();
 extern void extr_unload_4();
 extern void extr_unload_5();
 extern void extr_unload_6();
-
+extern void extr_unload_7();
+extern void extr_unload_8();
+extern void extr_unload_9();							
 
 extern bool mmu_check_version();
 extern void mmu_show_warning();
