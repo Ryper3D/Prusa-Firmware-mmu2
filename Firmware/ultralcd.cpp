@@ -5903,7 +5903,7 @@ static char snmm_stop_print_menu() { //menu for choosing which filaments will be
 uint8_t choose_menu_P(const char *header, const char *item, const char *last_item)
 {
     //following code should handle 3 to 127 number of items well
-    const int8_t items_no = last_item?(mmu_enabled?6:5):(mmu_enabled?5:4);
+    const int8_t items_no = last_item?(mmu_enabled?11:5):(mmu_enabled?10:4);
     const uint8_t item_len = item?strlen_P(item):0;
 	int8_t first = 0;
 	int8_t enc_dif = lcd_encoder_diff;
@@ -6097,10 +6097,6 @@ static void fil_load_menu()
 	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '9', extr_adj, 8);
 	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), 'x', extr_adj, 9);															  
 
-    if (mmu_enabled)
-    {
-        MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '5', extr_adj, 4);
-    }
     MENU_END();
 }
 
