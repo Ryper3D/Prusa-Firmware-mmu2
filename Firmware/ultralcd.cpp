@@ -6097,10 +6097,6 @@ static void fil_load_menu()
 	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '9', extr_adj, 8);
 	MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), 'x', extr_adj, 9);															  
 
-    if (mmu_enabled)
-    {
-        MENU_ITEM_FUNCTION_NR_P(_T(MSG_LOAD_FILAMENT), '5', extr_adj, 4);
-    }
     MENU_END();
 }
 
