@@ -278,7 +278,7 @@ void mmu_loop(void)
 	case S::Idle:
 		if (mmu_cmd != MmuCmd::None) //command request ?
 		{
-			if ((mmu_cmd >= MmuCmd::T0) && (mmu_cmd <= MmuCmd::T4))
+			if ((mmu_cmd >= MmuCmd::T0) && (mmu_cmd <= MmuCmd::T6))
 			{
 				const uint8_t filament = mmu_cmd - MmuCmd::T0;
 				DEBUG_PRINTF_P(PSTR("MMU <= 'T%d'\n"), filament);
@@ -287,7 +287,7 @@ void mmu_loop(void)
 				mmu_fil_loaded = true;
 				mmu_idl_sens = 1;
 			}
-			else if ((mmu_cmd >= MmuCmd::L0) && (mmu_cmd <= MmuCmd::L4))
+			else if ((mmu_cmd >= MmuCmd::L0) && (mmu_cmd <= MmuCmd::L6))
 			{
 			    const uint8_t filament = mmu_cmd - MmuCmd::L0;
 			    DEBUG_PRINTF_P(PSTR("MMU <= 'L%d'\n"), filament);
@@ -308,7 +308,7 @@ void mmu_loop(void)
 				mmu_fil_loaded = false;
 				mmu_state = S::WaitCmd;
 			}
-			else if ((mmu_cmd >= MmuCmd::E0) && (mmu_cmd <= MmuCmd::E4))
+			else if ((mmu_cmd >= MmuCmd::E0) && (mmu_cmd <= MmuCmd::E6))
 			{
 			    const uint8_t filament = mmu_cmd - MmuCmd::E0;
 				DEBUG_PRINTF_P(PSTR("MMU <= 'E%d'\n"), filament);
@@ -316,7 +316,7 @@ void mmu_loop(void)
 				mmu_fil_loaded = false;
 				mmu_state = S::WaitCmd;
 			}
-			else if ((mmu_cmd >= MmuCmd::K0) && (mmu_cmd <= MmuCmd::K4))
+			else if ((mmu_cmd >= MmuCmd::K0) && (mmu_cmd <= MmuCmd::K6))
             {
                 const uint8_t filament = mmu_cmd - MmuCmd::K0;
                 DEBUG_PRINTF_P(PSTR("MMU <= 'K%d'\n"), filament);
@@ -429,7 +429,7 @@ void mmu_loop(void)
 			if (mmu_last_cmd != MmuCmd::None)
 			{
 				if (mmu_attempt_nr++ < MMU_MAX_RESEND_ATTEMPTS &&
-				    mmu_last_cmd >= MmuCmd::T0 && mmu_last_cmd <= MmuCmd::T4)
+				    mmu_last_cmd >= MmuCmd::T0 && mmu_last_cmd <= MmuCmd::T6)
 				{
 				    DEBUG_PRINTF_P(PSTR("MMU retry attempt nr. %d\n"), mmu_attempt_nr - 1);
 					mmu_cmd = mmu_last_cmd;
@@ -515,7 +515,7 @@ int8_t mmu_set_filament_type(uint8_t extruder, uint8_t filament)
 //! If T or L command is enqueued, it marks filament loaded in AutoDeplete module.
 void mmu_command(MmuCmd cmd)
 {
-	if ((cmd >= MmuCmd::T0) && (cmd <= MmuCmd::T4))
+	if ((cmd >= MmuCmd::T0) && (cmd <= MmuCmd::T6))
 	{
 		//disable extruder motor
 #ifdef TMC2130
@@ -524,7 +524,7 @@ void mmu_command(MmuCmd cmd)
 		//printf_P(PSTR("E-axis disabled\n"));
 		ad_markLoaded(cmd - MmuCmd::T0);
 	}
-    if ((cmd >= MmuCmd::L0) && (cmd <= MmuCmd::L4))
+    if ((cmd >= MmuCmd::L0) && (cmd <= MmuCmd::L6))
     {
         ad_markLoaded(cmd - MmuCmd::L0);
     }
@@ -655,7 +655,7 @@ bool mmu_get_response(uint8_t move)
 //! which is constantly updated with nozzle temperature.
 void mmu_wait_for_heater_blocking()
 {
-    while ((degTargetHotend(active_extruder) - degHotend(active_extruder)) > 5)
+    while ((degTargetHotend(active_extruder) - degHotend(active_extruder)) > 7)
     {
         delay_keep_alive(1000);
         lcd_wait_for_heater();
@@ -879,8 +879,8 @@ void mmu_M600_load_filament(bool automatic, float nozzle_temp)
     }
     lcd_update_enable(false);
     lcd_clear();
-    lcd_puts_at_P(0, 1, _T(MSG_LOADING_FILAMENT));
-    lcd_print(' ');
+    lcd_set_cursor(0, 1); lcd_puts_P(_T(MSG_LOADING_FILAMENT));
+    lcd_print(" ");
     lcd_print(tmp_extruder + 1);
     snmm_filaments_used |= (1 << tmp_extruder); //for stop print
 
@@ -981,7 +981,7 @@ void extr_adj(uint8_t extruder) //loading filament for SNMM
 {
 #ifndef SNMM
     MmuCmd cmd = MmuCmd::L0 + extruder;
-    if (extruder > (MmuCmd::L4 - MmuCmd::L0))
+    if (extruder > (MmuCmd::L6 - MmuCmd::L0))
     {
         printf_P(PSTR("Filament out of range %d \n"),extruder);
         return;
@@ -1220,6 +1220,26 @@ void extr_adj_4()
 #endif
 }
 
+void extr_adj_5()
+{
+#ifndef SNMM
+	enquecommand_P(PSTR("M701 E5"));
+#else
+	change_extr(5);
+	extr_adj(5);
+#endif
+}
+
+void extr_adj_6()
+{
+#ifndef SNMM
+	enquecommand_P(PSTR("M701 E6"));
+#else
+	change_extr(6);
+	extr_adj(6);
+#endif
+}
+
 void load_all()
 {
 #ifndef SNMM
@@ -1228,8 +1248,11 @@ void load_all()
 	enquecommand_P(PSTR("M701 E2"));
 	enquecommand_P(PSTR("M701 E3"));
 	enquecommand_P(PSTR("M701 E4"));
+	enquecommand_P(PSTR("M701 E5"));
+	enquecommand_P(PSTR("M701 E6"));
+
 #else
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		change_extr(i);
 		extr_adj(i);
@@ -1262,13 +1285,31 @@ void extr_change_3()
 	lcd_return_to_status();
 }
 
+void extr_change_4()
+{
+	change_extr(4);
+	lcd_return_to_status();
+}
+
+void extr_change_5()
+{
+	change_extr(5);
+	lcd_return_to_status();
+}
+
+void extr_change_6()
+{
+	change_extr(6);
+	lcd_return_to_status();
+}
+
 #ifdef SNMM
 //wrapper functions for unloading filament
 void extr_unload_all()
 {
 	if (degHotend0() > EXTRUDE_MINTEMP)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			change_extr(i);
 			extr_unload();
@@ -1285,7 +1326,7 @@ void extr_unload_all()
 void extr_unload_used()
 {
 	if (degHotend0() > EXTRUDE_MINTEMP) {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 6; i++) {
 			if (snmm_filaments_used & (1 << i)) {
 				change_extr(i);
 				extr_unload();
@@ -1330,6 +1371,17 @@ void extr_unload_4()
 	extr_unload();
 }
 
+void extr_unload_5()
+{
+	change_extr(5);
+	extr_unload();
+}
+
+void extr_unload_6()
+{
+	change_extr(6);
+	extr_unload();
+}
 bool mmu_check_version()
 {
 	return (mmu_buildnr >= MMU_REQUIRED_FW_BUILDNR);
@@ -1402,7 +1454,7 @@ void mmu_eject_filament(uint8_t filament, bool recover)
 {
 //-//
 bFilamentAction=false;                            // NOT in "mmu_fil_eject_menu()"
-	if (filament < 5) 
+	if (filament < 7) 
 	{
 
 		if (degHotend0() > EXTRUDE_MINTEMP)
