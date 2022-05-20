@@ -1,3 +1,9 @@
+# Ryper Firmware - MMU 10 colours
+
+You can find pre-built versions for MK3S/MK3S+ [here](https://github.com/Ryper3D/Prusa-Firmware-mmu2/releases)
+
+You can find Ryper firmware for MMU unit [here](https://github.com/Ryper3D/MMU2-1S_Firmware/tree/10-colors)
+
 # Prusa Firmware MK3
 
 This repository contains the source code and the development versions of the firmware running on the [Original Prusa i3](https://prusa3d.com/) MK3S/MK3/MK2.5S/MK2.5 line of printers.

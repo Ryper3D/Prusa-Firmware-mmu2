@@ -10,7 +10,9 @@
 //! binary 1 marks filament as depleted
 //! Zero initialized value means, that no filament is depleted.
 static uint8_t depleted;
-static const uint8_t filamentCount = 5;
+//! Ryper MMU10
+static const uint8_t filamentCount = 10;
+//! Ryper MMU10
 
 //! @return binary 1 for all filaments
 //! @par fCount number of filaments
